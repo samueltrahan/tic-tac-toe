@@ -26,7 +26,7 @@ const squareEl = document.querySelectorAll('td div');
 const msgEl = document.getElementById('msg');
 
 /*----- event listeners -----*/
-document.querySelector("table").addEventListener('click', handleClick);
+document.querySelector("table").addEventListener('click',  handleClick);
 document.querySelector('button').addEventListener('click', init);
 /*----- functions -----*/
 init();
@@ -47,20 +47,23 @@ function render() {
     }else if(winner) {
         msgEl.innerHTML = `Congrats ${playerLookup[winner].toUpperCase()}!`;
         confetti.start(1500);
-        setTimeout(function() {kazoo.play();}, 1000);
     }else
     msgEl.innerHTML = `${playerLookup[turn].toUpperCase()}'s Turn`;
 })
 }
+console.log(squareEl[0]);
 
 function handleClick(event) {
-    console.log(event);
   const  click = parseInt(event.target.id.replace('sq', ''));
-    console.log(click);
-  if(board[click] || winner) return;
-
-  board[click] = turn;
-  turn *= -1;
+  if(board[click] || winner) return; 
+    board[click] = turn;
+  if(board[click] === 1) {
+      squareEl.innerHTML =- 'X';
+      turn *= -1
+  }else if(board[click] === -1){
+      squareEl.innerHTML = 'O';
+      turn *= -1;
+  }
   winner = getWinner();
   render();
 }
