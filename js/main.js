@@ -1,8 +1,8 @@
 /*----- constants -----*/
 const playerLookup = {
-    '1' : 'red',
-    '-1': 'black',
-    'null': 'white'
+    '1' : 'X', 
+    '-1': 'O',
+    '0': ''
 };
 
 const winningCombos = [
@@ -33,15 +33,16 @@ init();
 
 
 function init() {
-    board = [null, null, null, null, null, null, null, null, null];
+    board = [0, 0, 0, 0, 0, 0, 0, 0, 0];
     turn = 1;
     winner = null;
+    msgEl.innerHTML = "It's X's turn!"
     render();
 }
 
 function render() {
     board.forEach(function(square, idx) {
-        squareEl[idx].style.background = playerLookup[square];
+        squareEl[idx].innerText= playerLookup[square];
     if(winner === 'T') {
         msgEl.innerHTML = "It's a Tie!";
     }else if(winner) {
@@ -51,22 +52,16 @@ function render() {
     msgEl.innerHTML = `${playerLookup[turn].toUpperCase()}'s Turn`;
 })
 }
-console.log(squareEl[0]);
 
 function handleClick(event) {
   const  click = parseInt(event.target.id.replace('sq', ''));
   if(board[click] || winner) return; 
     board[click] = turn;
-  if(board[click] === 1) {
-      squareEl.innerHTML =- 'X';
-      turn *= -1
-  }else if(board[click] === -1){
-      squareEl.innerHTML = 'O';
-      turn *= -1;
-  }
-  winner = getWinner();
+    turn *= -1;
+   winner = getWinner();
   render();
 }
+
 
 function getWinner() {
     for(let i = 0; i < winningCombos.length; i++) {
@@ -80,7 +75,7 @@ function getWinner() {
          if(Math.abs(board[0] + board[4] + board[8]) === 3) return board[0];
          if(Math.abs(board[2] + board[4] + board[6]) === 3) return board[2];   
     }
-    if(board.includes(null)) return null;
+    if(board.includes(0)) return 0;
     return 'T';
     }
 
